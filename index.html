@@ -9,14 +9,18 @@
 <body>
 
     <div id="menu">
-        <h2>RhythmBeat</h2>
+        <h1>RhythmBeat</h1>
 
+        <label>曲</label><br>
         <select id="songSelect">
-            <option>Bright Sky</option>
-            <option>Night Drive</option>
-            <option>Future Beat</option>
+            <option value="Bright Sky">Bright Sky</option>
+            <option value="Night Drive">Night Drive</option>
+            <option value="Future Beat">Future Beat</option>
         </select>
 
+        <br><br>
+
+        <label>難易度</label><br>
         <select id="difficulty">
             <option>Easy Lv.5</option>
             <option>Normal Lv.11</option>
@@ -25,21 +29,32 @@
             <option>Master Lv.31</option>
         </select>
 
+        <br><br>
+
         <button id="start">START</button>
     </div>
 
     <div id="game">
+
         <div id="judgeLine"></div>
 
         <div class="lane" data-lane="0"></div>
         <div class="lane" data-lane="1"></div>
         <div class="lane" data-lane="2"></div>
         <div class="lane" data-lane="3"></div>
+
     </div>
 
     <div id="hud">
-        <p>Score: <span id="score">0</span></p>
-        <p>Combo: <span id="combo">0</span></p>
+        <h2 id="judge">READY</h2>
+
+        <p>Score :
+            <span id="score">0</span>
+        </p>
+
+        <p>Combo :
+            <span id="combo">0</span>
+        </p>
     </div>
 
     <script src="script.js"></script>
