@@ -1,13 +1,23 @@
 const lanes = document.querySelectorAll(".lane");
 const scoreText = document.getElementById("score");
 const comboText = document.getElementById("combo");
+const judgeText = document.getElementById("judge");
 const startButton = document.getElementById("start");
 
 let score = 0;
 let combo = 0;
+let gameRunning = false;
+let noteTimer = null;
+
+function updateHUD() {
+    scoreText.textContent = score;
+    comboText.textContent = combo;
+}
 
 function spawnNote() {
-    const laneIndex = Math.floor(Math.random() * 4);
+    if (!gameRunning) return;
+
+    const laneIndex = Math.floor(Math.random() * lanes.length);
     const lane = lanes[laneIndex];
 
     const note = document.createElement("div");
@@ -19,29 +29,51 @@ function spawnNote() {
     let y = 0;
 
     const fall = setInterval(() => {
-        y += 5;
+        y += 4;
         note.style.top = y + "px";
 
-        if (y > 580) {
+        if (y > 520) {
             clearInterval(fall);
-            note.remove();
-            combo = 0;
-            comboText.textContent = combo;
+
+            if (note.parentNode) {
+                note.remove();
+                combo = 0;
+                judgeText.textContent = "MISS";
+                updateHUD();
+            }
         }
     }, 16);
 
     note.addEventListener("click", () => {
+
         clearInterval(fall);
-        note.remove();
 
-        score += 100;
+        if (y >= 410 && y <= 450) {
+            judgeText.textContent = "PERFECT";
+            score += 1000;
+        } else if (y >= 370 && y < 410) {
+            judgeText.textContent = "GREAT";
+            score += 700;
+        } else {
+            judgeText.textContent = "GOOD";
+            score += 400;
+        }
+
         combo++;
+        updateHUD();
 
-        scoreText.textContent = score;
-        comboText.textContent = combo;
+        note.remove();
     });
 }
 
 startButton.addEventListener("click", () => {
-    setInterval(spawnNote, 1000);
+
+    if (gameRunning) return;
+
+    gameRunning = true;
+    score = 0;
+    combo = 0;
+    updateHUD();
+
+    noteTimer = setInterval(spawnNote, 800);
 });
