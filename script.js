@@ -17,7 +17,7 @@ function updateHUD() {
 function spawnNote() {
     if (!gameRunning) return;
 
-    const laneIndex = Math.floor(Math.random() * lanes.length);
+    const laneIndex = Math.floor(Math.random() * 4);
     const lane = lanes[laneIndex];
 
     const note = document.createElement("div");
@@ -32,7 +32,7 @@ function spawnNote() {
         y += 4;
         note.style.top = y + "px";
 
-        if (y > 520) {
+        if (y > 580) {
             clearInterval(fall);
 
             if (note.parentNode) {
@@ -45,35 +45,39 @@ function spawnNote() {
     }, 16);
 
     note.addEventListener("click", () => {
+        if (!note.parentNode) return;
 
         clearInterval(fall);
 
-        if (y >= 410 && y <= 450) {
-            judgeText.textContent = "PERFECT";
-            score += 1000;
-        } else if (y >= 370 && y < 410) {
-            judgeText.textContent = "GREAT";
-            score += 700;
-        } else {
-            judgeText.textContent = "GOOD";
-            score += 400;
-        }
+        // とりあえず必ずPERFECTにする
+        judgeText.textContent = "PERFECT";
 
+        score += 1000;
         combo++;
+
         updateHUD();
 
         note.remove();
+
+        // 0.5秒後にREADYへ戻す
+        setTimeout(() => {
+            judgeText.textContent = "READY";
+        }, 500);
     });
 }
 
 startButton.addEventListener("click", () => {
-
     if (gameRunning) return;
 
     gameRunning = true;
     score = 0;
     combo = 0;
     updateHUD();
+    judgeText.textContent = "READY";
+
+    if (noteTimer) {
+        clearInterval(noteTimer);
+    }
 
     noteTimer = setInterval(spawnNote, 800);
 });
