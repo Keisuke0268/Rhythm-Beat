@@ -41,3 +41,11 @@ function spawnNote() {
 }
 
 setInterval(spawnNote, 1000);
+document.getElementById("start").addEventListener("click", () => {
+    alert(
+        "曲：" +
+        document.getElementById("songSelect").value +
+        "\n難易度：" +
+        document.getElementById("difficulty").value
+    );
+});
