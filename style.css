@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+#game {
+    width: 320px;
+    height: 600px;
+    display: flex;
+    border: 2px solid white;
+    overflow: hidden;
+    background: black;
+}
+
+.lane {
+    flex: 1;
+    border-left: 1px solid #555;
+    border-right: 1px solid #555;
+    position: relative;
+}
+
+.note {
+    width: 80%;
+    height: 20px;
+    background: #00ccff;
+    position: absolute;
+    left: 10%;
+    top: 0;
+    border-radius: 8px;
+}
+
+#hud {
+    margin-top: 20px;
+    text-align: center;
+}
