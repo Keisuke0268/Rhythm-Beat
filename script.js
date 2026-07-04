@@ -2,67 +2,46 @@ const lanes = document.querySelectorAll(".lane");
 const scoreText = document.getElementById("score");
 const comboText = document.getElementById("combo");
 const startButton = document.getElementById("start");
-const menu = document.getElementById("menu");
-const game = document.getElementById("game");
 
 let score = 0;
 let combo = 0;
-let running = false;
-let spawnTimer = null;
-
-function updateHUD() {
-  scoreText.textContent = score;
-  comboText.textContent = combo;
-}
 
 function spawnNote() {
-  if (!running) return;
+    const laneIndex = Math.floor(Math.random() * 4);
+    const lane = lanes[laneIndex];
 
-  const laneIndex = Math.floor(Math.random() * 4);
-  const lane = lanes[laneIndex];
-  const note = document.createElement("div");
-  note.className = "note";
-  lane.appendChild(note);
+    const note = document.createElement("div");
+    note.className = "note";
+    note.style.top = "0px";
 
-  let y = 0;
-  const fall = setInterval(() => {
-    if (!running) {
-      clearInterval(fall);
-      note.remove();
-      return;
-    }
+    lane.appendChild(note);
 
-    y += 4;
-    note.style.top = y + "px";
+    let y = 0;
 
-    if (y > 560) {
-      clearInterval(fall);
-      note.remove();
-      combo = 0;
-      updateHUD();
-    }
-  }, 16);
+    const fall = setInterval(() => {
+        y += 5;
+        note.style.top = y + "px";
 
-  note.addEventListener("click", () => {
-    if (!running) return;
-    clearInterval(fall);
-    note.remove();
-    score += 100;
-    combo += 1;
-    updateHUD();
-  });
+        if (y > 580) {
+            clearInterval(fall);
+            note.remove();
+            combo = 0;
+            comboText.textContent = combo;
+        }
+    }, 16);
+
+    note.addEventListener("click", () => {
+        clearInterval(fall);
+        note.remove();
+
+        score += 100;
+        combo++;
+
+        scoreText.textContent = score;
+        comboText.textContent = combo;
+    });
 }
 
 startButton.addEventListener("click", () => {
-  if (running) return;
-
-  running = true;
-  score = 0;
-  combo = 0;
-  updateHUD();
-
-  menu.style.display = "none";
-  game.style.display = "flex";
-
-  spawnTimer = setInterval(spawnNote, 900);
+    setInterval(spawnNote, 1000);
 });
