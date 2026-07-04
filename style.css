@@ -40,3 +40,13 @@ body {
     margin-top: 20px;
     text-align: center;
 }
+#menu{
+    margin-bottom:20px;
+    text-align:center;
+}
+
+select,button{
+    font-size:18px;
+    padding:10px;
+    margin:5px;
+}
