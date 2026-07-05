@@ -20,11 +20,18 @@ function spawnNote() {
     const laneIndex = Math.floor(Math.random() * 4);
     const lane = lanes[laneIndex];
 
-    const note = document.createElement("div");
-    note.className = "note";
-    note.style.top = "0px";
+    const noteType = Math.random();
 
-    lane.appendChild(note);
+const note = document.createElement("div");
+
+if (noteType < 0.25) {
+    note.className = "hold";
+} else {
+    note.className = "note";
+}
+
+note.style.top = "0px";
+lane.appendChild(note);
 
     let y = 0;
 
@@ -44,26 +51,41 @@ function spawnNote() {
         }
     }, 16);
 
+    if (note.classList.contains("hold")) {
+
+    note.addEventListener("touchstart", () => {
+
+        judgeText.textContent = "HOLD";
+
+        setTimeout(() => {
+
+            score += 1500;
+            combo++;
+            updateHUD();
+
+            note.remove();
+
+            judgeText.textContent = "PERFECT";
+
+        },1000);
+
+    });
+
+} else {
+
     note.addEventListener("click", () => {
-        if (!note.parentNode) return;
-
-        clearInterval(fall);
-
-        // とりあえず必ずPERFECTにする
-        judgeText.textContent = "PERFECT";
 
         score += 1000;
         combo++;
-
         updateHUD();
 
         note.remove();
 
-        // 0.5秒後にREADYへ戻す
-        setTimeout(() => {
-            judgeText.textContent = "READY";
-        }, 500);
+        judgeText.textContent = "PERFECT";
+
     });
+
+    }
 }
 
 startButton.addEventListener("click", () => {
