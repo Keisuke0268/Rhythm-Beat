@@ -56,6 +56,15 @@ select {
 }
 
 .note {
+.hold {
+    width: 80%;
+    height: 120px;
+    background: #00ff66;
+    position: absolute;
+    left: 10%;
+    top: 0;
+    border-radius: 8px;
+}
     position: absolute;
     width: 80%;
     height: 20px;
